@@ -3,3 +3,5 @@
 // change the color
 // lock the color
 // save the palette
+// delete the saved palette
+// add animation
