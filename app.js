@@ -5,3 +5,9 @@
 // save the palette
 // delete the saved palette
 // add animation
+
+class Coolors {
+    constructor() {
+        super()
+    }
+}
