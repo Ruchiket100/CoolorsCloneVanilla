@@ -51,12 +51,12 @@ svg {
     background: rgb(251, 255, 252);
     padding: 1rem;
     width: 80%;
-    pointer-events: none;
     border-top-right-radius: 1rem;
     border-top-left-radius: 1rem;
     /* aadjustments */
-    opacity: 0;
-    transform: translateY(102px);
+    /* opacity: 0;
+    pointer-events: none;
+    transform: translateY(102px); */
     transition: all 0.5s ease-in-out;
 }
 
@@ -121,4 +121,12 @@ svg {
     background: none;
     cursor: pointer;
     margin: 2rem 0rem;
+}
+
+input[type='range'] {
+    position: relative;
+    -webkit-appearance: none;
+    margin: 1rem 0rem;
+    border-radius: 1rem;
+    cursor: pointer;
 }
