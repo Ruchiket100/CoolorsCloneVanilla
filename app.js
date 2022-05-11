@@ -5,6 +5,10 @@ const sliders = document.querySelectorAll('input[type = "range"]');
 const currentHextexes = document.querySelectorAll('.color h2')
 let initialColors;
 
+//  Event Listeners
+sliders.forEach(slider => {
+    slider.addEventListener('input', sliderControls)
+})
 
 // Funtions
 
@@ -58,6 +62,25 @@ function checkContrastText(color, text) {
     } else {
         text.style.color = 'white'
     }
+}
+
+// slider controlls
+function sliderControls(e) {
+    // index of color
+    let index = e.target.getAttribute('data-sat') ||
+        e.target.getAttribute('data-hue') ||
+        e.target.getAttribute('data-bright');
+    let sliders = e.target.parentElement.querySelectorAll(`input[type="range"]`);
+    let hue = sliders[0];
+    let brightness = sliders[1];
+    let saturation = sliders[2];
+    // change color as per slider
+    let BgColor = colorDivs[index].querySelector('h2').innerText;
+    let color = chroma(BgColor)
+        .set('hsl.s', saturation.value)
+        .set('hsl.l', brightness.value)
+        .set('hsl.h', hue.value);
+    colorDivs[index].style.backgroundColor = color;
 }
 
 
