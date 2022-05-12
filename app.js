@@ -20,9 +20,13 @@ function randomColor() {
 
 // generate hex and asign to the palette
 function generateRandomColors() {
+    // initial colors set
+    initialColors = [];
     colorDivs.forEach(div => {
         let hexText = div.children[0];
         let randomHex = randomColor();
+        // add randomhex in initial array
+        initialColors.push(randomHex.hex());
         // set color and text props as a hex
         div.style.backgroundColor = randomHex;
         hexText.innerText = randomHex;
@@ -35,7 +39,9 @@ function generateRandomColors() {
         const brightness = sliders[1];
         const saturation = sliders[2];
         slidersInputFeature(color, hue, brightness, saturation);
-    })
+    });
+    // set the values of sliders as colors
+    setSliderStartValues()
 }
 
 // sliders background and more
@@ -75,13 +81,43 @@ function sliderControls(e) {
     let brightness = sliders[1];
     let saturation = sliders[2];
     // change color as per slider
-    let BgColor = colorDivs[index].querySelector('h2').innerText;
+    let BgColor = initialColors[index];
     let color = chroma(BgColor)
         .set('hsl.s', saturation.value)
         .set('hsl.l', brightness.value)
         .set('hsl.h', hue.value);
     colorDivs[index].style.backgroundColor = color;
+    let text = colorDivs[index].querySelector('h2');
+    text.innerText = color;
+    checkContrastText(color, text);
+    slidersInputFeature(color, hue, brightness, saturation);
+
 }
 
+// sets values of hsl to the main color
+function setSliderStartValues() {
+    let sliders = document.querySelectorAll('.sliders input');
+    console.log(sliders);
+    sliders.forEach(slider => {
+        if (slider.name === 'hue') {
+            let index = slider.getAttribute("data-hue");
+            let color = initialColors[index];
+            let hueValue = chroma(color).hsl()[0];
+            slider.value = Math.floor(hueValue)
+        }
+        if (slider.name === 'bright') {
+            let index = slider.getAttribute("data-bright");
+            let color = initialColors[index];
+            let BrightValue = chroma(color).hsl()[2];
+            slider.value = Math.floor(BrightValue * 100) / 100;
+        }
+        if (slider.name === 'saturation') {
+            let index = slider.getAttribute("data-sat");
+            let color = initialColors[index];
+            let SatValue = chroma(color).hsl()[1];
+            slider.value = Math.floor(SatValue * 100) / 100;
+        }
+    })
+}
 
 generateRandomColors();
