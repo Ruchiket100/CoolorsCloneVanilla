@@ -130,3 +130,39 @@ input[type='range'] {
     border-radius: 1rem;
     cursor: pointer;
 }
+
+.copy-container {
+    display: flex;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.318);
+    top: 0%;
+    left: 0%;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    /* actions */
+    opacity: 0;
+    pointer-events: none;
+}
+
+.copy-popup {
+    display: flex;
+    background: white;
+    padding: 0.5rem 2rem;
+    height: 3rem;
+    margin-top: 5rem;
+    border-radius: 2rem;
+    align-items: center;
+    justify-content: space-around;
+    transition: transform 0.5s ease-out;
+    transform: translateY(-2rem);
+}
+
+.copy-container.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.copy-popup.active {
+    transform: translateY(0rem);
+}

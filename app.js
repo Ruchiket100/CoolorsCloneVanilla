@@ -2,12 +2,24 @@
 const colorDivs = document.querySelectorAll('.color');
 const generateBtn = document.querySelector('.generate');
 const sliders = document.querySelectorAll('input[type = "range"]');
-const currentHextexes = document.querySelectorAll('.color h2')
+const currentHextexes = document.querySelectorAll('.color h2');
+const copyPopup = document.querySelector('.copy-container');
+
 let initialColors;
 
 //  Event Listeners
 sliders.forEach(slider => {
     slider.addEventListener('input', sliderControls)
+})
+
+currentHextexes.forEach(text => {
+    text.addEventListener('click', () => {
+        coppyToClipboard(text)
+    })
+})
+copyPopup.addEventListener('transitionend', () => {
+    copyPopup.classList.remove('active');
+    copyPopup.children[0].classList.remove('active')
 })
 
 // Funtions
@@ -66,7 +78,7 @@ function checkContrastText(color, text) {
     if (luminance > 0.5) {
         text.style.color = 'black';
     } else {
-        text.style.color = 'white'
+        text.style.color = 'white';
     }
 }
 
@@ -118,6 +130,19 @@ function setSliderStartValues() {
             slider.value = Math.floor(SatValue * 100) / 100;
         }
     })
+}
+
+// copy to clipboard funtion
+function coppyToClipboard(text) {
+    let pseudoElement = document.createElement('textarea');
+    pseudoElement.value = text.innerText;
+    document.body.appendChild(pseudoElement)
+    pseudoElement.select();
+    document.execCommand('copy')
+    document.body.removeChild(pseudoElement);
+    // popup animation
+    copyPopup.classList.add('active');
+    copyPopup.children[0].classList.add('active')
 }
 
 generateRandomColors();
