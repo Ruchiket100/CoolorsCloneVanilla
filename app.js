@@ -4,6 +4,9 @@ const generateBtn = document.querySelector('.generate');
 const sliders = document.querySelectorAll('input[type = "range"]');
 const currentHextexes = document.querySelectorAll('.color h2');
 const copyPopup = document.querySelector('.copy-container');
+const adjustBtns = document.querySelectorAll('.adjust');
+const closeAdjustBtns = document.querySelectorAll('.close-adjustment')
+const sliderContainer = document.querySelectorAll('.sliders')
 
 let initialColors;
 
@@ -20,6 +23,17 @@ currentHextexes.forEach(text => {
 copyPopup.addEventListener('transitionend', () => {
     copyPopup.classList.remove('active');
     copyPopup.children[0].classList.remove('active')
+})
+
+adjustBtns.forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+        openAdjustSlider(index)
+    })
+})
+closeAdjustBtns.forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+        closeAdjustSlider(index)
+    })
 })
 
 // Funtions
@@ -43,7 +57,7 @@ function generateRandomColors() {
         div.style.backgroundColor = randomHex;
         hexText.innerText = randomHex;
         // change text color as per contrast
-        checkContrastText(randomHex, hexText)
+        checkContrastText(randomHex, hexText);
         // initialize sliders
         const color = chroma(randomHex);
         const sliders = div.querySelectorAll('.sliders input');
@@ -80,6 +94,7 @@ function checkContrastText(color, text) {
     } else {
         text.style.color = 'white';
     }
+
 }
 
 // slider controlls
@@ -109,7 +124,6 @@ function sliderControls(e) {
 // sets values of hsl to the main color
 function setSliderStartValues() {
     let sliders = document.querySelectorAll('.sliders input');
-    console.log(sliders);
     sliders.forEach(slider => {
         if (slider.name === 'hue') {
             let index = slider.getAttribute("data-hue");
@@ -143,6 +157,16 @@ function coppyToClipboard(text) {
     // popup animation
     copyPopup.classList.add('active');
     copyPopup.children[0].classList.add('active')
+}
+
+// open adjustment slieders
+function openAdjustSlider(index) {
+    sliderContainer[index].classList.toggle('active')
+}
+
+function closeAdjustSlider(index) {
+    sliderContainer[index].classList.remove('active');
+    console.log('clicked');
 }
 
 generateRandomColors();

@@ -54,9 +54,9 @@ svg {
     border-top-right-radius: 1rem;
     border-top-left-radius: 1rem;
     /* aadjustments */
-    /* opacity: 0;
+    opacity: 0;
     pointer-events: none;
-    transform: translateY(102px); */
+    transform: translateY(102px);
     transition: all 0.5s ease-in-out;
 }
 
@@ -70,20 +70,22 @@ svg {
     position: absolute;
     top: 0;
     right: 0;
-    padding: 0.5rem;
+    padding: 0.5rem 1rem;
     border: none;
-    border-top-left-radius: 1rem;
-    border-bottom-left-radius: 1rem;
-    background: rgb(72, 72, 72);
-    color: white;
+    border-radius: 1rem;
+    background: transparent;
+    color: rgb(250, 73, 73);
     cursor: pointer;
-    font-weight: bold;
+    font-weight: bolder;
+    font-size: 1.2rem;
 }
 
 .controls {
     display: flex;
     flex-direction: column;
 }
+
+
 
 .panel {
     display: flex;
@@ -154,7 +156,7 @@ input[type='range'] {
     border-radius: 2rem;
     align-items: center;
     justify-content: space-around;
-    transition: transform 0.5s ease-out;
+    transition: transform 0.5s ease-in-out;
     transform: translateY(-2rem);
 }
 
