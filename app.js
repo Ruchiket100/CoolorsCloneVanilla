@@ -1,12 +1,15 @@
 //  Selectors and declarations
 const colorDivs = document.querySelectorAll('.color');
-const generateBtn = document.querySelector('.generate');
 const sliders = document.querySelectorAll('input[type = "range"]');
 const currentHextexes = document.querySelectorAll('.color h2');
 const copyPopup = document.querySelector('.copy-container');
 const adjustBtns = document.querySelectorAll('.adjust');
+const lockBtns = document.querySelectorAll('.lock')
 const closeAdjustBtns = document.querySelectorAll('.close-adjustment')
-const sliderContainer = document.querySelectorAll('.sliders')
+const sliderContainer = document.querySelectorAll('.sliders');
+// Bottom Panel
+const generateBtn = document.querySelector('.generate');
+
 
 let initialColors;
 
@@ -35,6 +38,8 @@ closeAdjustBtns.forEach((btn, index) => {
         closeAdjustSlider(index)
     })
 })
+
+generateBtn.addEventListener('click', generateRandomColors)
 
 // Funtions
 
@@ -67,7 +72,13 @@ function generateRandomColors() {
         slidersInputFeature(color, hue, brightness, saturation);
     });
     // set the values of sliders as colors
-    setSliderStartValues()
+    setSliderStartValues();
+    // change color for different contrast in icons 
+    adjustBtns.forEach((btn, index) => {
+        console.log(btn, index);
+        checkContrastText(initialColors[index], btn);
+        checkContrastText(initialColors[index], lockBtns[index]);
+    })
 }
 
 // sliders background and more
@@ -166,7 +177,6 @@ function openAdjustSlider(index) {
 
 function closeAdjustSlider(index) {
     sliderContainer[index].classList.remove('active');
-    console.log('clicked');
 }
 
 generateRandomColors();
