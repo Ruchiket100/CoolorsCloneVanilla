@@ -39,7 +39,14 @@ closeAdjustBtns.forEach((btn, index) => {
     })
 })
 
-generateBtn.addEventListener('click', generateRandomColors)
+generateBtn.addEventListener('click', generateRandomColors);
+
+lockBtns.forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+        colorDivs[index].classList.toggle('locked');
+        colorDivs[index].classList.contains('locked') ? btn.innerHTML = "<i class='fas fa-lock'></i>" : btn.innerHTML = "<i class='fas fa-lock-open'></i>"
+    })
+})
 
 // Funtions
 
@@ -56,8 +63,13 @@ function generateRandomColors() {
     colorDivs.forEach(div => {
         let hexText = div.children[0];
         let randomHex = randomColor();
-        // add randomhex in initial array
-        initialColors.push(randomHex.hex());
+        if (div.classList.contains('locked')) {
+            initialColors.push(hexText.innerText);
+            randomHex = hexText.innerText;
+        } else {
+            // add randomhex in initial array
+            initialColors.push(randomHex.hex());
+        }
         // set color and text props as a hex
         div.style.backgroundColor = randomHex;
         hexText.innerText = randomHex;
