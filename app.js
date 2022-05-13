@@ -1,9 +1,15 @@
 //  Selectors and declarations
 const colorDivs = document.querySelectorAll('.color');
-const generateBtn = document.querySelector('.generate');
 const sliders = document.querySelectorAll('input[type = "range"]');
 const currentHextexes = document.querySelectorAll('.color h2');
 const copyPopup = document.querySelector('.copy-container');
+const adjustBtns = document.querySelectorAll('.adjust');
+const lockBtns = document.querySelectorAll('.lock')
+const closeAdjustBtns = document.querySelectorAll('.close-adjustment')
+const sliderContainer = document.querySelectorAll('.sliders');
+// Bottom Panel
+const generateBtn = document.querySelector('.generate');
+
 
 let initialColors;
 
@@ -22,6 +28,26 @@ copyPopup.addEventListener('transitionend', () => {
     copyPopup.children[0].classList.remove('active')
 })
 
+adjustBtns.forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+        openAdjustSlider(index)
+    })
+})
+closeAdjustBtns.forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+        closeAdjustSlider(index)
+    })
+})
+
+generateBtn.addEventListener('click', generateRandomColors);
+
+lockBtns.forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+        colorDivs[index].classList.toggle('locked');
+        colorDivs[index].classList.contains('locked') ? btn.innerHTML = "<i class='fas fa-lock'></i>" : btn.innerHTML = "<i class='fas fa-lock-open'></i>"
+    })
+})
+
 // Funtions
 
 // - create random hex
@@ -37,13 +63,18 @@ function generateRandomColors() {
     colorDivs.forEach(div => {
         let hexText = div.children[0];
         let randomHex = randomColor();
-        // add randomhex in initial array
-        initialColors.push(randomHex.hex());
+        if (div.classList.contains('locked')) {
+            initialColors.push(hexText.innerText);
+            randomHex = hexText.innerText;
+        } else {
+            // add randomhex in initial array
+            initialColors.push(randomHex.hex());
+        }
         // set color and text props as a hex
         div.style.backgroundColor = randomHex;
         hexText.innerText = randomHex;
         // change text color as per contrast
-        checkContrastText(randomHex, hexText)
+        checkContrastText(randomHex, hexText);
         // initialize sliders
         const color = chroma(randomHex);
         const sliders = div.querySelectorAll('.sliders input');
@@ -53,7 +84,13 @@ function generateRandomColors() {
         slidersInputFeature(color, hue, brightness, saturation);
     });
     // set the values of sliders as colors
-    setSliderStartValues()
+    setSliderStartValues();
+    // change color for different contrast in icons 
+    adjustBtns.forEach((btn, index) => {
+        console.log(btn, index);
+        checkContrastText(initialColors[index], btn);
+        checkContrastText(initialColors[index], lockBtns[index]);
+    })
 }
 
 // sliders background and more
@@ -80,6 +117,7 @@ function checkContrastText(color, text) {
     } else {
         text.style.color = 'white';
     }
+
 }
 
 // slider controlls
@@ -109,7 +147,6 @@ function sliderControls(e) {
 // sets values of hsl to the main color
 function setSliderStartValues() {
     let sliders = document.querySelectorAll('.sliders input');
-    console.log(sliders);
     sliders.forEach(slider => {
         if (slider.name === 'hue') {
             let index = slider.getAttribute("data-hue");
@@ -143,6 +180,15 @@ function coppyToClipboard(text) {
     // popup animation
     copyPopup.classList.add('active');
     copyPopup.children[0].classList.add('active')
+}
+
+// open adjustment slieders
+function openAdjustSlider(index) {
+    sliderContainer[index].classList.toggle('active')
+}
+
+function closeAdjustSlider(index) {
+    sliderContainer[index].classList.remove('active');
 }
 
 generateRandomColors();
