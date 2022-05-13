@@ -14,33 +14,42 @@ const generateBtn = document.querySelector('.generate');
 let initialColors;
 
 //  Event Listeners
+
+// get values of slider when user gives input
 sliders.forEach(slider => {
     slider.addEventListener('input', sliderControls)
 })
 
+// copy hex of color when clicked on text
 currentHextexes.forEach(text => {
     text.addEventListener('click', () => {
         coppyToClipboard(text)
     })
 })
+// remove copy to clipboard after transition completed
 copyPopup.addEventListener('transitionend', () => {
     copyPopup.classList.remove('active');
     copyPopup.children[0].classList.remove('active')
 })
 
+// open slilders when cliked on adjust icon
 adjustBtns.forEach((btn, index) => {
     btn.addEventListener('click', () => {
         openAdjustSlider(index)
     })
 })
+
+// closes sliders when click on x
 closeAdjustBtns.forEach((btn, index) => {
     btn.addEventListener('click', () => {
         closeAdjustSlider(index)
     })
 })
 
+//generate colors when clicked on generate button
 generateBtn.addEventListener('click', generateRandomColors);
 
+// lock color feature
 lockBtns.forEach((btn, index) => {
     btn.addEventListener('click', () => {
         colorDivs[index].classList.toggle('locked');
@@ -187,6 +196,7 @@ function openAdjustSlider(index) {
     sliderContainer[index].classList.toggle('active')
 }
 
+// close adjustment sliders
 function closeAdjustSlider(index) {
     sliderContainer[index].classList.remove('active');
 }
