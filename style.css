@@ -66,7 +66,8 @@ svg {
     pointer-events: all;
 }
 
-.sliders button {
+.sliders button,
+.close-library {
     position: absolute;
     top: 0;
     right: 0;
@@ -160,11 +161,52 @@ input[type='range'] {
     transform: translateY(-2rem);
 }
 
-.copy-container.active {
+.copy-container.active,
+.save-container.active,
+.library-container.active {
     opacity: 1;
     pointer-events: all;
 }
 
-.copy-popup.active {
+.copy-popup.active,
+.save-popup.active,
+.library-popup.active {
     transform: translateY(0rem);
+}
+
+.save-container,
+.library-container {
+    display: flex;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.318);
+    top: 0%;
+    left: 0%;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    /* actions */
+    opacity: 1;
+    pointer-events: none;
+}
+
+.save-popup,
+.library-popup {
+    display: flex;
+    background: white;
+    padding: 0.5rem 2rem;
+    min-width: 30%;
+    min-height: 30vh;
+    flex-direction: column;
+    margin-top: 5rem;
+    border-radius: 2rem;
+    align-items: center;
+    justify-content: space-evenly;
+    transition: transform 0.5s ease-in-out;
+    transform: translateY(-2rem);
+}
+
+.close-library {
+    cursor: pointer !important;
+    padding: 1rem 1rem;
 }
