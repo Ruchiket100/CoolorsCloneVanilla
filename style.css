@@ -67,7 +67,8 @@ svg {
 }
 
 .sliders button,
-.close-library {
+.close-library,
+.close-save {
     position: absolute;
     top: 0;
     right: 0;
@@ -186,7 +187,7 @@ input[type='range'] {
     justify-content: center;
     align-items: center;
     /* actions */
-    opacity: 1;
+    opacity: 0;
     pointer-events: none;
 }
 
@@ -206,7 +207,23 @@ input[type='range'] {
     transform: translateY(-2rem);
 }
 
-.close-library {
-    cursor: pointer !important;
+.close-library,
+.close-save {
     padding: 1rem 1rem;
+}
+
+.save-popup input {
+    outline: none;
+    border: none;
+    background: rgb(195, 193, 193);
+    padding: .5rem 1rem;
+}
+
+.submit-save {
+    background: rgb(136, 104, 199);
+    padding: 1rem 1.5rem;
+    color: white;
+    font-weight: bold;
+    border-radius: 1rem;
+    cursor: pointer;
 }
