@@ -1,8 +1,8 @@
 //  Selectors and declarations
 const colorDivs = document.querySelectorAll('.color');
-const sliders = document.querySelectorAll('input[type = "range"]');
 const currentHextexes = document.querySelectorAll('.color h2');
 const copyPopup = document.querySelector('.copy-container');
+const sliders = document.querySelectorAll('.sliders input[type="range"]')
 const adjustBtns = document.querySelectorAll('.adjust');
 const lockBtns = document.querySelectorAll('.lock')
 const closeAdjustBtns = document.querySelectorAll('.close-adjustment')
@@ -10,8 +10,8 @@ const sliderContainer = document.querySelectorAll('.sliders');
 // Bottom Panel
 const generateBtn = document.querySelector('.generate');
 
-
 let initialColors;
+let savedPalettes = [] // for local Storage
 
 //  Event Listeners
 
@@ -188,7 +188,7 @@ function coppyToClipboard(text) {
     document.body.removeChild(pseudoElement);
     // popup animation
     copyPopup.classList.add('active');
-    copyPopup.children[0].classList.add('active')
+    copyPopup.children[0].classList.add('active');
 }
 
 // open adjustment slieders
@@ -199,6 +199,61 @@ function openAdjustSlider(index) {
 // close adjustment sliders
 function closeAdjustSlider(index) {
     sliderContainer[index].classList.remove('active');
+}
+
+// popup script
+const saveBtn = document.querySelector('.save');
+const submitSave = document.querySelector('.submit-save');
+const closeSave = document.querySelector('.close-save');
+const saveContainer = document.querySelector('.save-container');
+const saveInput = document.querySelector('.save-container input');
+
+// saveBtn on click event
+saveBtn.addEventListener('click', openSavePalette);
+// close save popup
+closeSave.addEventListener('click', closeSavePalette);
+// submit save button on click 
+submitSave.addEventListener('click', savePalette)
+
+function openSavePalette() {
+    saveContainer.classList.add('active');
+    saveContainer.children[0].classList.add('active');
+}
+
+function closeSavePalette() {
+    saveContainer.classList.remove('active');
+    saveContainer.children[0].classList.remove('active');
+}
+
+function savePalette() {
+    closeSavePalette();
+    let nameOfPalette = saveInput.value;
+    let colorPalette = [];
+    currentHextexes.forEach(colorHex => {
+        colorPalette.push(colorHex.innerText);
+    });
+    // create Object of name and colors
+    let paletteNr = savedPalettes.length + 1;
+    let paletteObject = {
+        name: nameOfPalette,
+        colors: colorPalette,
+        id: paletteNr
+    }
+    savedPalettes.push(paletteObject);
+    // save to local storage
+    saveToLocal(paletteObject);
+    saveInput.value = '';
+}
+
+function saveToLocal(paletteObject) {
+    let localPalette;
+    if (localStorage.getItem('palettes') === null) {
+        localPalette = [];
+    } else {
+        localPalette = JSON.parse(localStorage.getItem('palettes'));
+    }
+    localPalette.push(paletteObject);
+    localStorage.setItem('palettes', JSON.stringify(localPalette));
 }
 
 generateRandomColors();
