@@ -188,7 +188,7 @@ function coppyToClipboard(text) {
     document.body.removeChild(pseudoElement);
     // popup animation
     copyPopup.classList.add('active');
-    copyPopup.children[0].classList.add('active')
+    copyPopup.children[0].classList.add('active');
 }
 
 // open adjustment slieders
@@ -211,7 +211,9 @@ const saveInput = document.querySelector('.save-container input');
 // saveBtn on click event
 saveBtn.addEventListener('click', openSavePalette);
 // close save popup
-closeSave.addEventListener('click', closeSavePalette)
+closeSave.addEventListener('click', closeSavePalette);
+// submit save button on click 
+submitSave.addEventListener('click', savePalette)
 
 function openSavePalette() {
     saveContainer.classList.add('active');
@@ -221,6 +223,37 @@ function openSavePalette() {
 function closeSavePalette() {
     saveContainer.classList.remove('active');
     saveContainer.children[0].classList.remove('active');
+}
+
+function savePalette() {
+    closeSavePalette();
+    let nameOfPalette = saveInput.value;
+    let colorPalette = [];
+    currentHextexes.forEach(colorHex => {
+        colorPalette.push(colorHex.innerText);
+    });
+    // create Object of name and colors
+    let paletteNr = savedPalettes.length + 1;
+    let paletteObject = {
+        name: nameOfPalette,
+        colors: colorPalette,
+        id: paletteNr
+    }
+    savedPalettes.push(paletteObject);
+    // save to local storage
+    saveToLocal(paletteObject);
+    saveInput.value = '';
+}
+
+function saveToLocal(paletteObject) {
+    let localPalette;
+    if (localStorage.getItem('palettes') === null) {
+        localPalette = [];
+    } else {
+        localPalette = JSON.parse(localStorage.getItem('palettes'));
+    }
+    localPalette.push(paletteObject);
+    localStorage.setItem('palettes', JSON.stringify(localPalette));
 }
 
 generateRandomColors();
