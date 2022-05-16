@@ -202,18 +202,28 @@ function closeAdjustSlider(index) {
 }
 
 // popup script
+// save
 const saveBtn = document.querySelector('.save');
 const submitSave = document.querySelector('.submit-save');
 const closeSave = document.querySelector('.close-save');
 const saveContainer = document.querySelector('.save-container');
 const saveInput = document.querySelector('.save-container input');
+// library
+const libraryContainer = document.querySelector('.library-container');
+const libraryBtn = document.querySelector('.library');
+const closeLibraryBtn = document.querySelector('.close-library');
+
 
 // saveBtn on click event
 saveBtn.addEventListener('click', openSavePalette);
 // close save popup
 closeSave.addEventListener('click', closeSavePalette);
 // submit save button on click 
-submitSave.addEventListener('click', savePalette)
+submitSave.addEventListener('click', savePalette);
+// open library popup
+libraryBtn.addEventListener('click', openLibrary);
+// close library popup
+closeLibraryBtn.addEventListener('click', closeLibrary);
 
 function openSavePalette() {
     saveContainer.classList.add('active');
@@ -243,6 +253,25 @@ function savePalette() {
     // save to local storage
     saveToLocal(paletteObject);
     saveInput.value = '';
+    // create library view for saved palette
+    let paletteDiv = document.createElement('div');
+    let title = document.createElement('h4');
+    let preview = document.createElement('div');
+    title.innerText = nameOfPalette;
+    preview.classList.add('li--color-preview');
+    paletteDiv.classList.add('li--palette');
+    paletteObject.colors.forEach(color => {
+        let div = document.createElement('div');
+        div.style.backgroundColor = color;
+        preview.appendChild(div);
+    });
+    let selectBtn = document.createElement('button');
+    selectBtn.innerText = 'Select';
+    // append all of this
+    paletteDiv.appendChild(title);
+    paletteDiv.appendChild(preview);
+    paletteDiv.appendChild(selectBtn);
+    libraryContainer.children[0].appendChild(paletteDiv);
 }
 
 function saveToLocal(paletteObject) {
@@ -254,6 +283,16 @@ function saveToLocal(paletteObject) {
     }
     localPalette.push(paletteObject);
     localStorage.setItem('palettes', JSON.stringify(localPalette));
+}
+
+function openLibrary() {
+    libraryContainer.classList.add('active');
+    libraryContainer.children[0].classList.add('active')
+}
+
+function closeLibrary() {
+    libraryContainer.classList.remove('active');
+    libraryContainer.children[0].classList.remove('active')
 }
 
 generateRandomColors();

@@ -227,3 +227,39 @@ input[type='range'] {
     border-radius: 1rem;
     cursor: pointer;
 }
+
+.li--palette {
+    display: flex;
+    width: 90%;
+    height: 2rem;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.li--color-preview {
+    display: flex;
+    flex: 1;
+    height: 100%;
+    margin: 0 1rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.li--color-preview div {
+    width: 10%;
+    height: 100%;
+}
+
+.li--palette button {
+    background-color: rgb(185, 135, 232);
+    padding: 0.5rem;
+    font-weight: bold;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+/* scroll bar appear when overflow */
+.library-popup {
+    overflow-y: scroll;
+}
