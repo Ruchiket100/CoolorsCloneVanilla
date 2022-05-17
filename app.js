@@ -243,7 +243,7 @@ function savePalette() {
         colorPalette.push(colorHex.innerText);
     });
     // create Object of name and colors
-    let paletteNr = savedPalettes.length + 1;
+    let paletteNr = savedPalettes.length;
     let paletteObject = {
         name: nameOfPalette,
         colors: colorPalette,
@@ -266,7 +266,23 @@ function savePalette() {
         preview.appendChild(div);
     });
     let selectBtn = document.createElement('button');
+    selectBtn.classList.add(paletteObject.id)
     selectBtn.innerText = 'Select';
+
+    // add event to button select
+    selectBtn.addEventListener('click', (e) => {
+        closeLibrary();
+        initialColors = [];
+        let index = e.target.classList[0];
+        let colors = savedPalettes[index].colors;
+        colors.forEach((color, index) => {
+            initialColors.push(color);
+            colorDivs[index].style.backgroundColor = color;
+            colorDivs[index].children[0].innerText = color;
+            checkContrastText(color, colorDivs[index].children[0].innerText)
+        });
+        setSliderStartValues()
+    })
     // append all of this
     paletteDiv.appendChild(title);
     paletteDiv.appendChild(preview);
@@ -295,4 +311,52 @@ function closeLibrary() {
     libraryContainer.children[0].classList.remove('active')
 }
 
+function getLocalSaved() {
+    if (localStorage.getItem('palettes') === null) {
+        let palettes = []
+        localStorage.setItem('palettes', palettes)
+    } else {
+        let palettes = JSON.parse(localStorage.getItem('palettes'));
+        palettes.forEach(paletteObj => {
+            // create library view for saved palette
+            let paletteDiv = document.createElement('div');
+            let title = document.createElement('h4');
+            let preview = document.createElement('div');
+            title.innerText = paletteObj.name;
+            preview.classList.add('li--color-preview');
+            paletteDiv.classList.add('li--palette');
+            paletteObj.colors.forEach(color => {
+                let div = document.createElement('div');
+                div.style.backgroundColor = color;
+                preview.appendChild(div);
+            });
+            let selectBtn = document.createElement('button');
+            selectBtn.classList.add(paletteObj.id)
+            selectBtn.innerText = 'Select';
+            // add event to button select
+            selectBtn.addEventListener('click', (e) => {
+                closeLibrary();
+                initialColors = [];
+                savedPalettes.push(paletteObj);
+                let index = e.target.classList[0];
+                let colors = savedPalettes[index].colors
+                colors.forEach((color, index) => {
+                    initialColors.push(color);
+                    colorDivs[index].style.backgroundColor = color;
+                    colorDivs[index].children[0].innerText = color;
+                    let textHex = colorDivs[index].children[0].innerText;
+                    checkContrastText(color, textHex)
+                });
+                setSliderStartValues();
+            })
+            // append all of this
+            paletteDiv.appendChild(title);
+            paletteDiv.appendChild(preview);
+            paletteDiv.appendChild(selectBtn);
+            libraryContainer.children[0].appendChild(paletteDiv);
+        })
+    }
+}
+
+getLocalSaved()
 generateRandomColors();

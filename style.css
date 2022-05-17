@@ -197,7 +197,7 @@ input[type='range'] {
     background: white;
     padding: 0.5rem 2rem;
     min-width: 30%;
-    min-height: 30vh;
+    height: 30vh;
     flex-direction: column;
     margin-top: 5rem;
     border-radius: 2rem;
