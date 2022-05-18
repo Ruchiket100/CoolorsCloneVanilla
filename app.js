@@ -242,8 +242,15 @@ function savePalette() {
     currentHextexes.forEach(colorHex => {
         colorPalette.push(colorHex.innerText);
     });
+
     // create Object of name and colors
-    let paletteNr = savedPalettes.length;
+    let paletteNr;
+    let paletteObjectsLocal = JSON.parse(localStorage.getItem('palettes'));
+    if (paletteObjectsLocal) {
+        paletteNr = paletteObjectsLocal.length;
+    } else {
+        paletteNr = savedPalettes.length;
+    }
     let paletteObject = {
         name: nameOfPalette,
         colors: colorPalette,
@@ -279,7 +286,7 @@ function savePalette() {
             initialColors.push(color);
             colorDivs[index].style.backgroundColor = color;
             colorDivs[index].children[0].innerText = color;
-            checkContrastText(color, colorDivs[index].children[0].innerText)
+            checkContrastText(color, colorDivs[index].children[0])
         });
         setSliderStartValues()
     })
@@ -313,8 +320,7 @@ function closeLibrary() {
 
 function getLocalSaved() {
     if (localStorage.getItem('palettes') === null) {
-        let palettes = []
-        localStorage.setItem('palettes', palettes)
+        localPalette = []
     } else {
         let palettes = JSON.parse(localStorage.getItem('palettes'));
         palettes.forEach(paletteObj => {
@@ -338,14 +344,14 @@ function getLocalSaved() {
                 closeLibrary();
                 initialColors = [];
                 savedPalettes.push(paletteObj);
-                let index = e.target.classList[0];
-                let colors = savedPalettes[index].colors
+                let colors = paletteObj.colors
                 colors.forEach((color, index) => {
                     initialColors.push(color);
+                    console.log(colorDivs[index]);
                     colorDivs[index].style.backgroundColor = color;
                     colorDivs[index].children[0].innerText = color;
-                    let textHex = colorDivs[index].children[0].innerText;
-                    checkContrastText(color, textHex)
+                    let textHex = colorDivs[index].children[0];
+                    checkContrastText(color, textHex);
                 });
                 setSliderStartValues();
             })
@@ -357,6 +363,5 @@ function getLocalSaved() {
         })
     }
 }
-
-getLocalSaved()
+getLocalSaved();
 generateRandomColors();
