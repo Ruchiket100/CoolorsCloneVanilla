@@ -1,10 +1,11 @@
 ## COOLORS CLONE WITH VANILLAJS
-![Alt Text](./content/final.gif);
-**Tech Stack Used**
+![Alt Text](./content/final.gif)
+
+**Tech Stack Used ->**
 - Javascript
 - chroma.js
 - HTML
 - CSS
 
 hosted on **Github Pages**
-![Alt Text](https://ruchiket100.github.io/CoolorsCloneVanilla/)
+[Live Site](https://ruchiket100.github.io/CoolorsCloneVanilla/)
