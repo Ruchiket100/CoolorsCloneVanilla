@@ -251,6 +251,7 @@ function savePalette() {
     let paletteObjectsLocal = JSON.parse(localStorage.getItem("palettes"));
     if (paletteObjectsLocal) {
         paletteNr = paletteObjectsLocal.length;
+        savedPalettes = [...paletteObjectsLocal];
     } else {
         paletteNr = savedPalettes.length;
     }
@@ -284,6 +285,7 @@ function savePalette() {
         closeLibrary();
         initialColors = [];
         let index = e.target.classList[0];
+        console.log(savedPalettes[index]);
         let colors = savedPalettes[index].colors;
         colors.forEach((color, index) => {
             initialColors.push(color);
