@@ -98,7 +98,6 @@ function generateRandomColors() {
     setSliderStartValues();
     // change color for different contrast in icons
     adjustBtns.forEach((btn, index) => {
-        console.log(btn, index);
         checkContrastText(initialColors[index], btn);
         checkContrastText(initialColors[index], lockBtns[index]);
     });
@@ -351,7 +350,6 @@ function getLocalSaved() {
                 let colors = paletteObj.colors;
                 colors.forEach((color, index) => {
                     initialColors.push(color);
-                    console.log(colorDivs[index]);
                     colorDivs[index].style.backgroundColor = color;
                     colorDivs[index].children[0].innerText = color;
                     let textHex = colorDivs[index].children[0];
